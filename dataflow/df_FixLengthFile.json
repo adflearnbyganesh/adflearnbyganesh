@@ -1,5 +1,5 @@
 {
-	"name": "dataflow1",
+	"name": "df_FixLengthFile",
 	"properties": {
 		"type": "MappingDataFlow",
 		"typeProperties": {
@@ -24,6 +24,9 @@
 			"transformations": [
 				{
 					"name": "derivedColumnForSeprateColumns"
+				},
+				{
+					"name": "select1"
 				}
 			],
 			"scriptLines": [
@@ -37,12 +40,21 @@
 				"          ProductName = substring(Column_1,5,8),",
 				"          Quantity = substring(Column_1,13,6),",
 				"          Amount = substring(Column_1,19,5)) ~> derivedColumnForSeprateColumns",
-				"derivedColumnForSeprateColumns sink(allowSchemaDrift: true,",
+				"derivedColumnForSeprateColumns select(mapColumn(",
+				"          Pid,",
+				"          ProductName,",
+				"          Quantity,",
+				"          Amount",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select1",
+				"select1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     deletable:false,",
 				"     insertable:true,",
 				"     updateable:false,",
 				"     upsertable:false,",
+				"     recreate:true,",
 				"     format: 'table',",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
