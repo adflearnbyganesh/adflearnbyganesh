@@ -1,0 +1,23 @@
+{
+	"name": "ds_sales_csv",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "lnk_devstorageforatlast",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "Sal.csv",
+				"container": "devfiles"
+			},
+			"columnDelimiter": "|",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": []
+	}
+}
