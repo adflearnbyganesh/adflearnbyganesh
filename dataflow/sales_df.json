@@ -43,7 +43,7 @@
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false) ~> SalesFile",
-				"SalesFile split(isNull(toDate(SalaryDate)),",
+				"SalesFile split(isNull(toDate(SalaryDate,'yyyy-MM-dd')),",
 				"     disjoint: false) ~> SplitforBestRows@(error, Proper)",
 				"SplitforBestRows@error sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",

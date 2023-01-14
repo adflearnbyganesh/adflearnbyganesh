@@ -1,0 +1,24 @@
+{
+	"name": "ds_dynamicTable",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "lnk_atlasdevdb",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"TableName": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": {
+				"value": "@dataset().TableName",
+				"type": "Expression"
+			}
+		}
+	}
+}

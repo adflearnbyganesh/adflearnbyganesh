@@ -21,6 +21,9 @@
 						"datasetParameters": {
 							"Saleserror": {
 								"TableNames": "Saleserror"
+							},
+							"Sales": {
+								"TableNames": "Sales"
 							}
 						}
 					},
