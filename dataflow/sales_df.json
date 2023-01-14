@@ -1,5 +1,5 @@
 {
-	"name": "dataflow1",
+	"name": "sales_df",
 	"properties": {
 		"type": "MappingDataFlow",
 		"typeProperties": {
@@ -18,7 +18,14 @@
 						"referenceName": "ds_sales_table",
 						"type": "DatasetReference"
 					},
-					"name": "saleserror"
+					"name": "Saleserror"
+				},
+				{
+					"dataset": {
+						"referenceName": "ds_sales_table",
+						"type": "DatasetReference"
+					},
+					"name": "Sales"
 				}
 			],
 			"transformations": [
@@ -48,7 +55,17 @@
 				"     format: 'table',",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
-				"     errorHandlingOption: 'stopOnFirstError') ~> saleserror"
+				"     errorHandlingOption: 'stopOnFirstError') ~> Saleserror",
+				"SplitforBestRows@Proper sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError') ~> Sales"
 			]
 		}
 	}
