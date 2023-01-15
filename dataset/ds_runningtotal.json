@@ -18,6 +18,19 @@
 			"firstRowAsHeader": true,
 			"quoteChar": "\""
 		},
-		"schema": []
+		"schema": [
+			{
+				"name": "pid",
+				"type": "String"
+			},
+			{
+				"name": "Pname",
+				"type": "String"
+			},
+			{
+				"name": "qty",
+				"type": "String"
+			}
+		]
 	}
 }
