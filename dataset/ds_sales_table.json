@@ -1,0 +1,24 @@
+{
+	"name": "ds_sales_table",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "lnk_atlasdevdb",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"TableNames": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": {
+				"value": "@dataset().TableNames",
+				"type": "Expression"
+			}
+		}
+	}
+}

@@ -1,0 +1,73 @@
+{
+	"name": "sales_df",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ds_sales_csv",
+						"type": "DatasetReference"
+					},
+					"name": "SalesFile"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ds_sales_table",
+						"type": "DatasetReference"
+					},
+					"name": "Saleserror"
+				},
+				{
+					"dataset": {
+						"referenceName": "ds_sales_table",
+						"type": "DatasetReference"
+					},
+					"name": "Sales"
+				}
+			],
+			"transformations": [
+				{
+					"name": "SplitforBestRows"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          vid as string,",
+				"          vendorname as string,",
+				"          Salary as string,",
+				"          SalaryDate as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> SalesFile",
+				"SalesFile split(isNull(toDate(SalaryDate,'yyyy-MM-dd')),",
+				"     disjoint: false) ~> SplitforBestRows@(error, Proper)",
+				"SplitforBestRows@error sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     recreate:true,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError') ~> Saleserror",
+				"SplitforBestRows@Proper sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     truncate:true,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError') ~> Sales"
+			]
+		}
+	}
+}
