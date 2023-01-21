@@ -1,0 +1,24 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "atlas-dev-factory"
+		},
+		"lnk_atlasdevdb_connectionString": {
+			"value": "Integrated Security=False;Encrypt=True;Connection Timeout=30;Data Source=atlasdev001.database.windows.net;Initial Catalog=atlasdevdb;User ID=atlasuser"
+		},
+		"lnk_dev_keyvalut_properties_typeProperties_baseUrl": {
+			"value": "https://dev-keyvalut-001.vault.azure.net/"
+		},
+		"lnk_devstorageforatlast_properties_typeProperties_connectionString_secretName": {
+			"value": "key-dev-storage"
+		},
+		"containerUri": {
+			"value": ""
+		},
+		"containerSasToken": {
+			"value": ""
+		}
+	}
+}
