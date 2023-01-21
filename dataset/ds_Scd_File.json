@@ -1,0 +1,40 @@
+{
+	"name": "ds_Scd_File",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "lnk_devstorageforatlast",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "Scd1_File1.csv",
+				"container": "devfiles"
+			},
+			"columnDelimiter": ";",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "cid",
+				"type": "String"
+			},
+			{
+				"name": "ConainerName",
+				"type": "String"
+			},
+			{
+				"name": "POL",
+				"type": "String"
+			},
+			{
+				"name": "POD",
+				"type": "String"
+			}
+		]
+	}
+}

@@ -1,0 +1,59 @@
+{
+	"name": "df_SCD1",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ds_Scd_File",
+						"type": "DatasetReference"
+					},
+					"name": "sourcescdFiles"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ds_dynamicTable",
+						"type": "DatasetReference"
+					},
+					"name": "sinksqltable"
+				}
+			],
+			"transformations": [
+				{
+					"name": "alterRowForSCDFiles"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          cid as integer,",
+				"          ConainerName as string,",
+				"          POL as string,",
+				"          POD as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> sourcescdFiles",
+				"sourcescdFiles alterRow(upsertIf(1==1)) ~> alterRowForSCDFiles",
+				"alterRowForSCDFiles sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError',",
+				"     mapColumn(",
+				"          cid,",
+				"          ConainerName,",
+				"          POL,",
+				"          POD",
+				"     )) ~> sinksqltable"
+			]
+		}
+	}
+}
