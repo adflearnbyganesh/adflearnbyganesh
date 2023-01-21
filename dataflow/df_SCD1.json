@@ -43,6 +43,7 @@
 				"     insertable:true,",
 				"     updateable:false,",
 				"     upsertable:true,",
+				"     keys:['cid'],",
 				"     format: 'table',",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
