@@ -1,0 +1,46 @@
+{
+	"name": "PP_SCD2",
+	"properties": {
+		"activities": [
+			{
+				"name": "Data flow SCD2",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "df_SCD2",
+						"type": "DataFlowReference",
+						"datasetParameters": {
+							"sourceinsertscd2": {
+								"FileName": "Scd1_File1.csv"
+							},
+							"sourcetable": {
+								"TableName": "Scd_Two_Example"
+							},
+							"sinkTableSCD2Insert": {
+								"TableName": "Scd_Two_Example"
+							},
+							"sinkTableSCD2Update": {
+								"TableName": "Scd_Two_Example"
+							}
+						}
+					},
+					"compute": {
+						"coreCount": 8,
+						"computeType": "General"
+					},
+					"traceLevel": "Fine"
+				}
+			}
+		],
+		"annotations": []
+	}
+}
