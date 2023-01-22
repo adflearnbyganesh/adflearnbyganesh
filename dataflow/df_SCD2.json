@@ -44,6 +44,9 @@
 				},
 				{
 					"name": "derivedColumnisActiveTable"
+				},
+				{
+					"name": "alterRowforUpdate"
 				}
 			],
 			"scriptLines": [
@@ -72,6 +75,7 @@
 				"     multiple: true,",
 				"     broadcast: 'auto')~> lookupFileTable",
 				"lookupFileTable derive(isActivewithZero = 0) ~> derivedColumnisActiveTable",
+				"derivedColumnisActiveTable alterRow(updateIf(1==1)) ~> alterRowforUpdate",
 				"derivedColumnIsActive sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     deletable:false,",
@@ -83,7 +87,7 @@
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
 				"     errorHandlingOption: 'stopOnFirstError') ~> sinkTableSCD2Insert",
-				"derivedColumnisActiveTable sink(allowSchemaDrift: true,",
+				"alterRowforUpdate sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     deletable:false,",
 				"     insertable:false,",
