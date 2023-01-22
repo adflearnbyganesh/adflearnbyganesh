@@ -16,7 +16,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"dataflow": {
-						"referenceName": "sales_df",
+						"referenceName": "df_Sales",
 						"type": "DataFlowReference",
 						"datasetParameters": {
 							"Saleserror": {

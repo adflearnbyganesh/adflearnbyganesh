@@ -1,15 +1,15 @@
 {
-	"name": "df_RunningTotal",
+	"name": "df_SCD2",
 	"properties": {
 		"type": "MappingDataFlow",
 		"typeProperties": {
 			"sources": [
 				{
 					"dataset": {
-						"referenceName": "ds_runningtotal",
+						"referenceName": "ds_Scd_File",
 						"type": "DatasetReference"
 					},
-					"name": "sourcerunningtotalcsvfile"
+					"name": "sourceinsertscd2"
 				}
 			],
 			"sinks": [
@@ -23,21 +23,21 @@
 			],
 			"transformations": [
 				{
-					"name": "window1"
+					"name": "derivedColumnIsActive"
 				}
 			],
 			"scriptLines": [
 				"source(output(",
-				"          pid as string,",
-				"          Pname as string,",
-				"          qty as integer",
+				"          cid as string,",
+				"          ConainerName as string,",
+				"          POL as string,",
+				"          POD as string",
 				"     ),",
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     ignoreNoFilesFound: false) ~> sourcerunningtotalcsvfile",
-				"sourcerunningtotalcsvfile window(asc(pid, true),",
-				"     RunningTotal = sum(qty)) ~> window1",
-				"window1 sink(allowSchemaDrift: true,",
+				"     ignoreNoFilesFound: false) ~> sourceinsertscd2",
+				"sourceinsertscd2 derive(isActive = 1) ~> derivedColumnIsActive",
+				"derivedColumnIsActive sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     deletable:false,",
 				"     insertable:true,",

@@ -1,5 +1,5 @@
 {
-	"name": "sales_df",
+	"name": "df_Sales",
 	"properties": {
 		"type": "MappingDataFlow",
 		"typeProperties": {
