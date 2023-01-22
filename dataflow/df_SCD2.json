@@ -10,6 +10,13 @@
 						"type": "DatasetReference"
 					},
 					"name": "sourceinsertscd2"
+				},
+				{
+					"dataset": {
+						"referenceName": "ds_dynamicTable",
+						"type": "DatasetReference"
+					},
+					"name": "sourcetable"
 				}
 			],
 			"sinks": [
@@ -24,11 +31,14 @@
 			"transformations": [
 				{
 					"name": "derivedColumnIsActive"
+				},
+				{
+					"name": "lookupFileTable"
 				}
 			],
 			"scriptLines": [
 				"source(output(",
-				"          cid as string,",
+				"          cid as integer,",
 				"          ConainerName as string,",
 				"          POL as string,",
 				"          POD as string",
@@ -36,7 +46,15 @@
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false) ~> sourceinsertscd2",
+				"source(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> sourcetable",
 				"sourceinsertscd2 derive(isActive = 1) ~> derivedColumnIsActive",
+				"sourceinsertscd2, sourcetable lookup(cid == ERROR_FUNCTION(''),",
+				"     multiple: false,",
+				"     pickup: 'any',",
+				"     broadcast: 'auto')~> lookupFileTable",
 				"derivedColumnIsActive sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     deletable:false,",
