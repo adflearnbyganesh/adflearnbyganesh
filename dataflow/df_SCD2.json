@@ -25,7 +25,14 @@
 						"referenceName": "ds_dynamicTable",
 						"type": "DatasetReference"
 					},
-					"name": "sink1"
+					"name": "sinkTableSCD2Insert"
+				},
+				{
+					"dataset": {
+						"referenceName": "ds_dynamicTable",
+						"type": "DatasetReference"
+					},
+					"name": "sinkTableSCD2Update"
 				}
 			],
 			"transformations": [
@@ -34,6 +41,9 @@
 				},
 				{
 					"name": "lookupFileTable"
+				},
+				{
+					"name": "derivedColumnisActiveTable"
 				}
 			],
 			"scriptLines": [
@@ -46,15 +56,22 @@
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false) ~> sourceinsertscd2",
-				"source(allowSchemaDrift: true,",
+				"source(output(",
+				"          cid as integer,",
+				"          ConainerName as string,",
+				"          POL as string,",
+				"          POD as string,",
+				"          isActive as integer",
+				"     ),",
+				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
 				"     format: 'table') ~> sourcetable",
 				"sourceinsertscd2 derive(isActive = 1) ~> derivedColumnIsActive",
-				"sourceinsertscd2, sourcetable lookup(cid == ERROR_FUNCTION(''),",
-				"     multiple: false,",
-				"     pickup: 'any',",
+				"sourceinsertscd2, sourcetable lookup(sourceinsertscd2@cid == sourcetable@cid,",
+				"     multiple: true,",
 				"     broadcast: 'auto')~> lookupFileTable",
+				"lookupFileTable derive(isActivewithZero = 0) ~> derivedColumnisActiveTable",
 				"derivedColumnIsActive sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     deletable:false,",
@@ -65,7 +82,25 @@
 				"     format: 'table',",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
-				"     errorHandlingOption: 'stopOnFirstError') ~> sink1"
+				"     errorHandlingOption: 'stopOnFirstError') ~> sinkTableSCD2Insert",
+				"derivedColumnisActiveTable sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     deletable:false,",
+				"     insertable:false,",
+				"     updateable:true,",
+				"     upsertable:false,",
+				"     keys:['cid'],",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError',",
+				"     mapColumn(",
+				"          cid = sourceinsertscd2@cid,",
+				"          ConainerName = sourceinsertscd2@ConainerName,",
+				"          POL = sourceinsertscd2@POL,",
+				"          POD = sourceinsertscd2@POD,",
+				"          isActive = isActivewithZero",
+				"     )) ~> sinkTableSCD2Update"
 			]
 		}
 	}
