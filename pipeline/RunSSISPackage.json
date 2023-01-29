@@ -1,0 +1,47 @@
+{
+	"name": "RunSSISPackage",
+	"properties": {
+		"activities": [
+			{
+				"name": "Execute SSIS package1",
+				"type": "ExecuteSSISPackage",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"packageLocation": {
+						"packagePath": "Atlas/LiftNShiftSSIS/LiftNShfitPakcage.dtsx",
+						"type": "SSISDB"
+					},
+					"environmentPath": null,
+					"connectVia": {
+						"referenceName": "integrationRuntime-SSIS-Lift-Shift",
+						"type": "IntegrationRuntimeReference"
+					},
+					"loggingLevel": "Basic",
+					"packageConnectionManagers": {
+						"atlasdev001.database.windows.net.atlasdevdb.atlasuser": {
+							"Password": {
+								"value": {
+									"type": "AzureKeyVaultSecret",
+									"store": {
+										"referenceName": "lnk_dev_keyvalut",
+										"type": "LinkedServiceReference"
+									},
+									"secretName": "key-dbpassword"
+								}
+							}
+						}
+					}
+				}
+			}
+		],
+		"annotations": []
+	}
+}
