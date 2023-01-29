@@ -1,0 +1,25 @@
+{
+	"name": "empFilesystem",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "FileServer_locally",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "FileServerLocation",
+				"fileName": "emp6.csv"
+			},
+			"columnDelimiter": "|",
+			"escapeChar": "\\",
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"type": "String"
+			}
+		]
+	}
+}
